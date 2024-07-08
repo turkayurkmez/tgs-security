@@ -28,5 +28,17 @@ namespace InjectionAttacks.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Process()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Process([Bind("UserInfo","UserName","Password")]UserRegisterModel registerModel)
+        {
+            return View();
+        }
     }
 }
