@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="weather">
+        Tıkla
+    </button>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+
+        </script>
+    <script>
+        $(document).ready(function () {
+            $('#weather').on('click', function () {
+                console.log('tıklandı');
+                $.ajax({
+                    
+                    headers:{
+                        'Authorization':'Basic '+btoa('turkay:123')
+                    },
+                    url: 'https://localhost:7171/WeatherForecast',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+
+
+                });
+
+            });
+        });
+    </script>
+</body>
+
+</html>
