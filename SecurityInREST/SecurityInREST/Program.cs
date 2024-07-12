@@ -1,6 +1,14 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using SecurityInREST.Security;
+using SecurityInREST.Services;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//REST: SOA yapısı. REpresentational State Transfer -> Temsili Durum Transferi
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,6 +31,25 @@ builder.Services.AddCors(option=> option.AddPolicy("allow", policy =>
      */
 }));
 
+builder.Services.AddScoped<UserService>();
+
+//builder.Services.AddAuthentication("Basic")
+//                .AddScheme<BasicOption, BasicHandler>("Basic", null);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(option => option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = "server.tgs",
+
+                    ValidateAudience = true,
+                    ValidAudience = "client.tgs",
+
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("burası-token-onayi-icin-kullanilacak")),
+                    ValidateIssuerSigningKey = true
+
+                });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +61,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("allow");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

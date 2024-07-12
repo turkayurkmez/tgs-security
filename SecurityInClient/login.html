@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" placeholder="Kullanıcı adı" id="textName"><br>
+    <input type="password" name="" placeholder="Şifre" id="textPass">
+    <button id="login" type="button">Giriş</button>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $('#login').on('click',function(){
+                let userName = $('#textName').val();
+                let pass = $('#textPass').val();
+                let encoded = btoa(`${userName}:${pass}`);
+                localStorage.setItem('encoded',encoded);
+
+            })
+        });
+    </script>
+</body>
+</html>
